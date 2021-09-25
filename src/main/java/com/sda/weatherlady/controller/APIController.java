@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class APIController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(APIController.class);
-    private AccuweatherService accuweatherService;
+    private final AccuweatherService accuweatherService;
 
     public APIController(AccuweatherService accuweatherService) {
         this.accuweatherService = accuweatherService;
@@ -35,11 +35,15 @@ public class APIController {
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     public ResponseEntity<WeatherDTO> getWeather(
-            @RequestParam String type
+            @RequestParam String type,
+            @RequestParam String location
     ) {
-        LOGGER.info("getWeather {}", type);
-        WeatherDTO weatherDTO = accuweatherService.getForecastForCity();
+        LOGGER.info("getWeather {}, for city {}", type, location);
+        WeatherDTO weatherDTO = accuweatherService.getForecastForCity(location);
 
         return ResponseEntity.ok(weatherDTO);
     }
+
+
+
 }

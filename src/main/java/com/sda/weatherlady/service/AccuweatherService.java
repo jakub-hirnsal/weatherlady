@@ -2,7 +2,7 @@ package com.sda.weatherlady.service;
 
 
 import com.sda.weatherlady.dto.AccuweatherCitySearchResponse;
-import com.sda.weatherlady.dto.AccuweatherForecastDTO;
+import com.sda.weatherlady.dto.AccuweatherCurrentDTO;
 import com.sda.weatherlady.dto.WeatherDTO;
 import com.sda.weatherlady.exception.NotFoundException;
 import java.util.List;
@@ -25,6 +25,9 @@ public class AccuweatherService implements WeatherService {
     @Value("${app.service.accuweather.forecastUrl}")
     private String forecastUrl;
 
+    @Value("${app.service.accuweather.currentUrl}")
+    private String currentUrl;
+
     @Value("${app.service.accuweather.searchCityUrl}")
     private String searchCityUrl;
 
@@ -41,15 +44,25 @@ public class AccuweatherService implements WeatherService {
         return this.downloadWeather(keyByCity);
     }
 
-    public WeatherDTO downloadWeather(String key) {
+    public WeatherDTO downloadWeather(String city) {
         LOGGER.info("About to download Accuweather");
 
-        ResponseEntity<AccuweatherForecastDTO> entity = this.restTemplate.getForEntity(
-                forecastUrl,
-                AccuweatherForecastDTO.class
+        String url = UriComponentsBuilder.fromHttpUrl(currentUrl)
+                .queryParam("apikey", apikey)
+                .queryParam("details", true)
+                .build(city)
+                .toString();
+
+        LOGGER.info("Url to call: {}", url);
+
+        ResponseEntity<List<AccuweatherCurrentDTO>> entity = this.restTemplate.exchange(
+                url,
+                HttpMethod.GET,
+                null,
+                new ParameterizedTypeReference<>() {}
         );
 
-        AccuweatherForecastDTO body = entity.getBody();
+        List<AccuweatherCurrentDTO> body = entity.getBody();
 
         return new WeatherDTO();
     }
