@@ -64,7 +64,7 @@ public class AccuweatherService implements WeatherService {
         List<CurrentDTO> body = entity.getBody();
 
         if (body.isEmpty()) {
-            throw new NotFoundException();
+            throw new NotFoundException("Could not find any Weather condition for city " + city);
         }
 
         return body.get(0);
@@ -87,7 +87,7 @@ public class AccuweatherService implements WeatherService {
         var cities = response.getBody();
 
         if (cities.isEmpty()) {
-            throw new NotFoundException();
+            throw new NotFoundException("City not found: " + city);
         }
 
         var accuweatherCitySearchResponse = cities.get(0);
