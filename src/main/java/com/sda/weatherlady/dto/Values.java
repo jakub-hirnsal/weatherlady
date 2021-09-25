@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 @Data
-public class TemperatureValues {
+public class Values {
 
     @JsonProperty("Value")
     private Float value;
@@ -12,6 +12,4 @@ public class TemperatureValues {
     @JsonProperty("Unit")
     private String unit;
 
-    @JsonProperty("UnitType")
-    private Integer unitType;
 }

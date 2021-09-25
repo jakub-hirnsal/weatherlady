@@ -9,4 +9,10 @@ public class CurrentDTO {
     @JsonProperty("Temperature")
     private Temperature temperature;
 
+    @JsonProperty("Wind")
+    private Wind wind;
+
+    @JsonProperty("Pressure")
+    private Pressure pressure;
+
 }
