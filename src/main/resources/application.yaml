@@ -8,3 +8,8 @@ app:
       currentUrl: http://dataservice.accuweather.com/currentconditions/v1/{locationKey}
       searchCityUrl: http://dataservice.accuweather.com/locations/v1/cities/search
       apikey: ${ACCUWEATHER_API_KEY}
+      array:
+        - one
+        - two
+        - three
+        - four

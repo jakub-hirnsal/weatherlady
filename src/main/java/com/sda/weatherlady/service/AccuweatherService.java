@@ -1,13 +1,13 @@
 package com.sda.weatherlady.service;
 
 
+import com.sda.weatherlady.configuration.AccuweatherConfiguration;
 import com.sda.weatherlady.dto.AccuweatherCitySearchResponse;
 import com.sda.weatherlady.dto.CurrentDTO;
 import com.sda.weatherlady.exception.NotFoundException;
 import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
@@ -21,20 +21,22 @@ public class AccuweatherService implements WeatherService {
     private static final Logger LOGGER = LoggerFactory.getLogger(AccuweatherService.class);
     private final RestTemplate restTemplate;
 
-    @Value("${app.service.accuweather.forecastUrl}")
-    private String forecastUrl;
+//    @Value("${app.service.accuweather.forecastUrl}")
+//    private String forecastUrl;
+//
+//    @Value("${app.service.accuweather.currentUrl}")
+//    private String currentUrl;
+//
+//    @Value("${app.service.accuweather.searchCityUrl}")
+//    private String searchCityUrl;
+//
+//    @Value("${app.service.accuweather.apikey}")
+//    private String apikey;
+    private AccuweatherConfiguration accuweatherConfiguration;
 
-    @Value("${app.service.accuweather.currentUrl}")
-    private String currentUrl;
-
-    @Value("${app.service.accuweather.searchCityUrl}")
-    private String searchCityUrl;
-
-    @Value("${app.service.accuweather.apikey}")
-    private String apikey;
-
-    public AccuweatherService(RestTemplate restTemplate) {
+    public AccuweatherService(RestTemplate restTemplate, AccuweatherConfiguration accuweatherConfiguration) {
         this.restTemplate = restTemplate;
+        this.accuweatherConfiguration = accuweatherConfiguration;
     }
 
     public CurrentDTO getForecastForCity(String city) {
@@ -46,8 +48,8 @@ public class AccuweatherService implements WeatherService {
     public CurrentDTO downloadWeather(String city) {
         LOGGER.info("About to download Accuweather");
 
-        String url = UriComponentsBuilder.fromHttpUrl(currentUrl)
-                .queryParam("apikey", apikey)
+        String url = UriComponentsBuilder.fromHttpUrl(accuweatherConfiguration.getCurrentUrl())
+                .queryParam("apikey", accuweatherConfiguration.getApikey())
                 .queryParam("details", true)
                 .build(city)
                 .toString();
@@ -72,9 +74,9 @@ public class AccuweatherService implements WeatherService {
 
     public String findKeyByCity(String city) {
 
-        String uriString = UriComponentsBuilder.fromHttpUrl(this.searchCityUrl)
+        String uriString = UriComponentsBuilder.fromHttpUrl(accuweatherConfiguration.getSearchCityUrl())
                 .queryParam("q", city)
-                .queryParam("apikey", apikey)
+                .queryParam("apikey", accuweatherConfiguration.getApikey())
                 .toUriString();
 
         ResponseEntity<List<AccuweatherCitySearchResponse>> response = this.restTemplate.exchange(
