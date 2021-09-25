@@ -61,28 +61,40 @@ public class OpenWeatherService {
 
     private CurrentDTO convertToCommonFormat(OpenWeatherDTO openWeatherDTO) {
         return CurrentDTO.builder()
-                .pressure(Pressure.builder()
+                .pressure(buildPressure(openWeatherDTO))
+                .temperature(buildTemperature(openWeatherDTO))
+                .wind(buildWind(openWeatherDTO))
+                .build();
+    }
+
+    private Pressure buildPressure(OpenWeatherDTO openWeatherDTO) {
+        return Pressure.builder()
+                .metric(new Values(
+                        (float) openWeatherDTO.getMain().getPressure(),
+                        "mb"
+                )).build();
+    }
+
+    private Temperature buildTemperature(OpenWeatherDTO openWeatherDTO) {
+        return Temperature.builder()
+                .metric(new Values(
+                        openWeatherDTO.getMain().getTemp(),
+                        "C"
+                ))
+                .build();
+    }
+
+    private Wind buildWind(OpenWeatherDTO openWeatherDTO) {
+        return Wind.builder()
+                .speed(Speed.builder()
                         .metric(new Values(
-                                (float) openWeatherDTO.getMain().getPressure(),
-                                "mb"
-                        )).build()
-                ).temperature(Temperature.builder()
-                        .metric(new Values(
-                                openWeatherDTO.getMain().getTemp(),
-                                "C"
+                                openWeatherDTO.getWind().getSpeed(),
+                                "??"
                         ))
-                        .build()
-                ).wind(Wind.builder()
-                        .speed(Speed.builder()
-                                .metric(new Values(
-                                        openWeatherDTO.getWind().getSpeed(),
-                                        "??"
-                                ))
-                                .build())
-                        .direction(Direction.builder()
-                                .degrees(openWeatherDTO.getWind().getDeg())
-                                .build())
-                        .build()
-                ).build();
+                        .build())
+                .direction(Direction.builder()
+                        .degrees(openWeatherDTO.getWind().getDeg())
+                        .build())
+                .build();
     }
 }
