@@ -13,3 +13,6 @@ app:
         - two
         - three
         - four
+    openweather:
+      currentUrl: http://api.openweathermap.org/data/2.5/weather
+      apikey: ${OPENWEATHER_API_KEY}
