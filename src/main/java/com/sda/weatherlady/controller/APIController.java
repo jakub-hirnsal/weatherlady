@@ -1,6 +1,6 @@
 package com.sda.weatherlady.controller;
 
-import com.sda.weatherlady.dto.WeatherDTO;
+import com.sda.weatherlady.dto.CurrentDTO;
 import com.sda.weatherlady.service.AccuweatherService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,16 +34,14 @@ public class APIController {
             value = "/weather",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public ResponseEntity<WeatherDTO> getWeather(
+    public ResponseEntity<CurrentDTO> getWeather(
             @RequestParam String type,
             @RequestParam String location
     ) {
         LOGGER.info("getWeather {}, for city {}", type, location);
-        WeatherDTO weatherDTO = accuweatherService.getForecastForCity(location);
+        CurrentDTO currentDTO = accuweatherService.getForecastForCity(location);
 
-        return ResponseEntity.ok(weatherDTO);
+        return ResponseEntity.ok(currentDTO);
     }
-
-
 
 }

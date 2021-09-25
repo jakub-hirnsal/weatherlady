@@ -2,8 +2,7 @@ package com.sda.weatherlady.service;
 
 
 import com.sda.weatherlady.dto.AccuweatherCitySearchResponse;
-import com.sda.weatherlady.dto.AccuweatherCurrentDTO;
-import com.sda.weatherlady.dto.WeatherDTO;
+import com.sda.weatherlady.dto.CurrentDTO;
 import com.sda.weatherlady.exception.NotFoundException;
 import java.util.List;
 import org.slf4j.Logger;
@@ -38,13 +37,13 @@ public class AccuweatherService implements WeatherService {
         this.restTemplate = restTemplate;
     }
 
-    public WeatherDTO getForecastForCity(String city) {
+    public CurrentDTO getForecastForCity(String city) {
         String keyByCity = this.findKeyByCity(city);
 
         return this.downloadWeather(keyByCity);
     }
 
-    public WeatherDTO downloadWeather(String city) {
+    public CurrentDTO downloadWeather(String city) {
         LOGGER.info("About to download Accuweather");
 
         String url = UriComponentsBuilder.fromHttpUrl(currentUrl)
@@ -55,16 +54,20 @@ public class AccuweatherService implements WeatherService {
 
         LOGGER.info("Url to call: {}", url);
 
-        ResponseEntity<List<AccuweatherCurrentDTO>> entity = this.restTemplate.exchange(
+        ResponseEntity<List<CurrentDTO>> entity = this.restTemplate.exchange(
                 url,
                 HttpMethod.GET,
                 null,
                 new ParameterizedTypeReference<>() {}
         );
 
-        List<AccuweatherCurrentDTO> body = entity.getBody();
+        List<CurrentDTO> body = entity.getBody();
 
-        return new WeatherDTO();
+        if (body.isEmpty()) {
+            throw new NotFoundException();
+        }
+
+        return body.get(0);
     }
 
     public String findKeyByCity(String city) {
