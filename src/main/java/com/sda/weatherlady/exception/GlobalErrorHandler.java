@@ -45,4 +45,20 @@ public class GlobalErrorHandler extends ResponseEntityExceptionHandler {
         );
     }
 
+    @ExceptionHandler(InternalServerException.class)
+    public ResponseEntity<Object> handleNotFoundException(final InternalServerException  internalServerException, WebRequest request) {
+        return handleExceptionInternal(
+                internalServerException,
+                new ErrorResponseDTO(
+                        HttpStatus.INTERNAL_SERVER_ERROR.value(),
+                        internalServerException.getMessage(),
+                        Instant.now().toString()
+                ),
+                //notFoundException.getMessage(),
+                new HttpHeaders(),
+                HttpStatus.INTERNAL_SERVER_ERROR,
+                request
+        );
+    }
+
 }
