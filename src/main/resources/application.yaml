@@ -16,3 +16,14 @@ app:
     openweather:
       currentUrl: http://api.openweathermap.org/data/2.5/weather
       apikey: ${OPENWEATHER_API_KEY}
+
+
+spring:
+  datasource:
+    url: jdbc:h2:mem:testdb
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+  jpa:
+    hibernate:
+      ddl-auto: create
