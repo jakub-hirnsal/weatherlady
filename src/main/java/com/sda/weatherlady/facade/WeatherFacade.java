@@ -30,9 +30,20 @@ public class WeatherFacade {
         if (type.equals(ACCUWEATHER)) {
             return accuweatherService.getCurrentConditionForCity(city);
         } else if(type.equals(OPENWEATHER)) {
-            return openWeatherService.getCurrenConditionForCity(city);
+            return openWeatherService.getCurrentConditionForCity(city);
         }
 
         throw new BadRequestException("This type is not supported");
     }
+
+    public CurrentDTO getAverageCurrentCondition(String city) {
+        // TODO: Implement future
+        CurrentDTO accuweatherCondition = accuweatherService.getCurrentConditionForCity(city);
+        CurrentDTO openweatherCondition = openWeatherService.getCurrentConditionForCity(city);
+
+
+
+        return null;
+    }
+
 }

@@ -36,7 +36,7 @@ public class OpenWeatherService {
         this.restTemplate = restTemplate;
     }
 
-    public CurrentDTO getCurrenConditionForCity(String city) {
+    public CurrentDTO getCurrentConditionForCity(String city) {
         String url = UriComponentsBuilder.fromHttpUrl(currentUrl)
                 .queryParam("appid", apikey)
                 .queryParam("q", city)
