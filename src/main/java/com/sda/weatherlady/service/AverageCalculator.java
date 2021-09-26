@@ -12,7 +12,7 @@ import java.util.stream.DoubleStream;
 
 public class AverageCalculator {
 
-    public CurrentDTO calculateAverage(CurrentDTO... conditions) {
+    public static CurrentDTO calculateAverage(CurrentDTO... conditions) {
         if (conditions == null || conditions.length == 0) {
             return null;
         }
@@ -33,39 +33,45 @@ public class AverageCalculator {
         Double averageWindSpeed = calculateAverage(Arrays.stream(conditions)
                 .mapToDouble(condition -> condition.getWind().getSpeed().getMetric().getValue()));
 
+        CurrentDTO currentDTO = conditions[0];
+
         return buildAverage(
                 averagePressure,
                 averageTemperature,
                 averageWindDirection,
                 averageWindSpeed,
-                conditions[0]
+                currentDTO.getTemperature().getMetric().getUnit(),
+                currentDTO.getPressure().getMetric().getUnit(),
+                currentDTO.getWind().getSpeed().getMetric().getUnit()
         );
     }
 
-    private Double calculateAverage(DoubleStream stream) {
+    private static Double calculateAverage(DoubleStream stream) {
         return stream.average().orElseGet(null);
     }
 
-    private CurrentDTO buildAverage(
+    public static CurrentDTO buildAverage(
             Double averagePressure,
             Double averageTemperature,
             Double averageWindDirection,
             Double averageWindSpeed,
-            CurrentDTO currentDTO
+            String temperatureUnits,
+            String pressureUnits,
+            String windUnits
     ) {
         return CurrentDTO.builder()
                 .temperature(Temperature.builder()
-                        .metric(new Values(averageTemperature.floatValue(), currentDTO.getTemperature().getMetric().getUnit()))
+                        .metric(new Values(averageTemperature.floatValue(), temperatureUnits))
                         .build())
                 .pressure(Pressure.builder()
-                        .metric(new Values(averagePressure.floatValue(), currentDTO.getPressure().getMetric().getUnit()))
+                        .metric(new Values(averagePressure.floatValue(), pressureUnits))
                         .build())
                 .wind(Wind.builder()
                         .direction(Direction.builder()
                                 .degrees(averageWindDirection.intValue())
                                 .build())
                         .speed(Speed.builder()
-                                .metric(new Values(averageWindSpeed.floatValue(), currentDTO.getWind().getSpeed().getMetric().getUnit()))
+                                .metric(new Values(averageWindSpeed.floatValue(), windUnits))
                                 .build())
                         .build())
                 .build();
