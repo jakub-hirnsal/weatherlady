@@ -41,7 +41,7 @@ public class APIController {
             @RequestParam String city
     ) {
         LOGGER.info("getWeather {}, for city {}", type, city);
-        CurrentDTO currentDTO = weatherFacade.getWeather(type, city);
+        var currentDTO = weatherFacade.getWeather(type, city);
 
 
         return ResponseEntity.ok(currentDTO);
