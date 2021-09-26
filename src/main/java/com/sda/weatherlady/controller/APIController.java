@@ -1,8 +1,7 @@
 package com.sda.weatherlady.controller;
 
 import com.sda.weatherlady.dto.CurrentDTO;
-import com.sda.weatherlady.service.AccuweatherService;
-import com.sda.weatherlady.service.OpenWeatherService;
+import com.sda.weatherlady.facade.WeatherFacade;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.MediaType;
@@ -17,15 +16,12 @@ import org.springframework.web.bind.annotation.RestController;
 public class APIController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(APIController.class);
-    private final AccuweatherService accuweatherService;
-    private final OpenWeatherService openWeatherService;
+    private final WeatherFacade weatherFacade;
 
     public APIController(
-            AccuweatherService accuweatherService,
-            OpenWeatherService openWeatherService
+           WeatherFacade weatherFacade
     ) {
-        this.accuweatherService = accuweatherService;
-        this.openWeatherService = openWeatherService;
+        this.weatherFacade = weatherFacade;
     }
 
     @GetMapping(
@@ -42,25 +38,26 @@ public class APIController {
     )
     public ResponseEntity<CurrentDTO> getWeather(
             @RequestParam String type,
-            @RequestParam String location
+            @RequestParam String city
     ) {
-        LOGGER.info("getWeather {}, for city {}", type, location);
-        CurrentDTO currentDTO = accuweatherService.getForecastForCity(location);
+        LOGGER.info("getWeather {}, for city {}", type, city);
+        CurrentDTO currentDTO = weatherFacade.getWeather(type, city);
+
 
         return ResponseEntity.ok(currentDTO);
     }
 
-    @GetMapping(
-            value = "/openweather",
-            produces = MediaType.APPLICATION_JSON_VALUE
-    )
-    public ResponseEntity<CurrentDTO> getOpenWeather(
-            @RequestParam String city
-    ) {
-        LOGGER.info("getWeather for city {}", city);
-        return ResponseEntity.ok(
-                openWeatherService.getCurrenConditionForCity(city)
-        );
-    }
+//    @GetMapping(
+//            value = "/openweather",
+//            produces = MediaType.APPLICATION_JSON_VALUE
+//    )
+//    public ResponseEntity<CurrentDTO> getOpenWeather(
+//            @RequestParam String city
+//    ) {
+//        LOGGER.info("getWeather for city {}", city);
+//        return ResponseEntity.ok(
+//                openWeatherService.getCurrenConditionForCity(city)
+//        );
+//    }
 
 }

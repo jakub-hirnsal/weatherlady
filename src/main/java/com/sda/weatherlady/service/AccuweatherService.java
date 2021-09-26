@@ -39,13 +39,13 @@ public class AccuweatherService implements WeatherService {
         this.accuweatherConfiguration = accuweatherConfiguration;
     }
 
-    public CurrentDTO getForecastForCity(String city) {
+    public CurrentDTO getCurrentConditionForCity(String city) {
         String keyByCity = this.findKeyByCity(city);
 
         return this.downloadWeather(keyByCity);
     }
 
-    public CurrentDTO downloadWeather(String city) {
+    private CurrentDTO downloadWeather(String city) {
         LOGGER.info("About to download Accuweather");
 
         String url = UriComponentsBuilder.fromHttpUrl(accuweatherConfiguration.getCurrentUrl())
@@ -72,7 +72,7 @@ public class AccuweatherService implements WeatherService {
         return body.get(0);
     }
 
-    public String findKeyByCity(String city) {
+    private String findKeyByCity(String city) {
 
         String uriString = UriComponentsBuilder.fromHttpUrl(accuweatherConfiguration.getSearchCityUrl())
                 .queryParam("q", city)

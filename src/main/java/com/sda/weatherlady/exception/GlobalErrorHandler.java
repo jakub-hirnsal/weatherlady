@@ -27,4 +27,22 @@ public class GlobalErrorHandler extends ResponseEntityExceptionHandler {
                     request
             );
     }
+
+
+    @ExceptionHandler(BadRequestException.class)
+    public ResponseEntity<Object> handleNotFoundException(final BadRequestException badRequestException, WebRequest request) {
+        return handleExceptionInternal(
+                badRequestException,
+                new ErrorResponseDTO(
+                        HttpStatus.BAD_REQUEST.value(),
+                        badRequestException.getMessage(),
+                        Instant.now().toString()
+                ),
+                //notFoundException.getMessage(),
+                new HttpHeaders(),
+                HttpStatus.BAD_REQUEST,
+                request
+        );
+    }
+
 }
