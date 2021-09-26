@@ -3,6 +3,7 @@ package com.sda.weatherlady.facade;
 import com.sda.weatherlady.dto.CurrentDTO;
 import com.sda.weatherlady.exception.BadRequestException;
 import com.sda.weatherlady.service.AccuweatherService;
+import com.sda.weatherlady.service.AverageCalculator;
 import com.sda.weatherlady.service.OpenWeatherService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -41,9 +42,7 @@ public class WeatherFacade {
         CurrentDTO accuweatherCondition = accuweatherService.getCurrentConditionForCity(city);
         CurrentDTO openweatherCondition = openWeatherService.getCurrentConditionForCity(city);
 
-
-
-        return null;
+        return AverageCalculator.calculateAverage(accuweatherCondition, openweatherCondition);
     }
 
 }

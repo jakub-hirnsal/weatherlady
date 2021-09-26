@@ -60,4 +60,16 @@ public class APIController {
 //        );
 //    }
 
+    @GetMapping(
+            value = "/weather/average",
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    public ResponseEntity<CurrentDTO> getAverageCondition(
+            @RequestParam String city
+    ) {
+        LOGGER.info("getAverageCondition for city {}", city);
+
+        return ResponseEntity.ok(weatherFacade.getAverageCurrentCondition(city));
+    }
+
 }
