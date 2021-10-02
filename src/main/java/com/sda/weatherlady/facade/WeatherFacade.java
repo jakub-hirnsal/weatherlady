@@ -9,6 +9,7 @@ import com.sda.weatherlady.repository.CurrentConditionRepository;
 import com.sda.weatherlady.service.AccuweatherService;
 import com.sda.weatherlady.service.AverageCalculator;
 import com.sda.weatherlady.service.OpenWeatherService;
+import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import org.slf4j.Logger;
@@ -23,6 +24,7 @@ public class WeatherFacade {
 
     private static final String ACCUWEATHER = "accuweather";
     private static final String OPENWEATHER = "openweather";
+    private static final String AVERAGE = "average";
 
     private final AccuweatherService accuweatherService;
     private final OpenWeatherService openWeatherService;
@@ -55,23 +57,32 @@ public class WeatherFacade {
             throw new NotFoundException("Weather not found");
         }
 
-        var currentCondition = CurrentCondition.builder()
-                .temperature(currentDTO.getTemperature().getMetric().getValue())
-                .pressure(currentDTO.getPressure().getMetric().getValue())
-                .windDirection(currentDTO.getWind().getDirection().getDegrees())
-                .windSpeed(currentDTO.getWind().getSpeed().getMetric().getValue())
-                .source(type)
-                .build();
+        var currentCondition = convertToModel(currentDTO, type);
 
         currentConditionRepository.save(currentCondition);
 
         return currentDTO;
     }
 
+    private CurrentCondition convertToModel(CurrentDTO currentDTO, String type) {
+        return CurrentCondition.builder()
+                .temperature(currentDTO.getTemperature().getMetric().getValue())
+                .pressure(currentDTO.getPressure().getMetric().getValue())
+                .windDirection(currentDTO.getWind().getDirection().getDegrees())
+                .windSpeed(currentDTO.getWind().getSpeed().getMetric().getValue())
+                .source(type)
+                .build();
+    }
+
+    /**
+     * FOR the call: http://127.0.0.1:8080/api/weather/average?city=Prague
+     *
+     * @param city String
+     * @return CurrentDTO
+     */
     public CurrentDTO getAverageCurrentCondition(String city) {
-        // TODO: Implement future
-        CurrentDTO accuweatherCondition = null;
-        CurrentDTO openweatherCondition = null;
+        CurrentDTO accuweatherDTO = null;
+        CurrentDTO openweatherDTO = null;
 
         CompletableFuture<CurrentDTO> accuweatherCompletableFuture = CompletableFuture.supplyAsync(
                 () -> accuweatherService.getCurrentConditionForCity(city)
@@ -83,14 +94,26 @@ public class WeatherFacade {
         try {
             CompletableFuture<Void> voidCompletableFuture = CompletableFuture.allOf(accuweatherCompletableFuture, openWeatherCompletableFuture);
             voidCompletableFuture.get();
-            accuweatherCondition = accuweatherCompletableFuture.get();
-            openweatherCondition = openWeatherCompletableFuture.get();
+            accuweatherDTO = accuweatherCompletableFuture.get();
+            openweatherDTO = openWeatherCompletableFuture.get();
         } catch (ExecutionException | InterruptedException ex) {
             LOGGER.error("Cannot fetch data from external API", ex);
             throw new InternalServerException("Internal server error");
         }
 
-        return AverageCalculator.calculateAverage(accuweatherCondition, openweatherCondition);
+        CurrentDTO average = AverageCalculator.calculateAverage(accuweatherDTO, openweatherDTO);
+
+        CurrentCondition averageCondition = convertToModel(average, AVERAGE);
+        CurrentCondition accuweatherCondition = convertToModel(accuweatherDTO, ACCUWEATHER);
+        CurrentCondition openweatherCondition = convertToModel(openweatherDTO, OPENWEATHER);
+
+        averageCondition.setChildren(
+                Set.of(accuweatherCondition, openweatherCondition)
+        );
+
+        currentConditionRepository.save(averageCondition);
+
+        return average;
     }
 
 }
