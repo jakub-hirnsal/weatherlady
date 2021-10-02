@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Welcome Page</title>
+
+    <link rel="stylesheet" href="/webjars/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link th:href="@{/css/main.css}" rel="stylesheet" />
+</head>
+<body>
+    <section class="section-header">
+        <div class="container">
+            <h1>Current conditions from DB</h1>
+        </div>
+    </section>
+
+    <section>
+        <div class="container">
+            <div class="row">
+                <div class="col col-md-4" th:each="condition: ${listOfConditions}">
+                    <div class="card condition-card">
+                        <p>Temperature: <th:block th:text="${condition.temperature}"></th:block></p>
+                        <p>windDirection: <th:block th:text="${condition.windDirection}"></th:block></p>
+                        <p>windSpeed: <th:block th:text="${condition.windSpeed}"></th:block></p>
+                        <p>pressure: <th:block th:text="${condition.pressure}"></th:block></p>
+                        <p>source: <th:block th:text="${condition.source}"></th:block></p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <script src="/webjars/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script type="text/javascript" th:src="@{/js/main.js}"></script>
+</body>
+</html>
