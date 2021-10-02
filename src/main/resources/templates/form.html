@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Welcome Page</title>
+
+    <link rel="stylesheet" href="/webjars/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link th:href="@{/css/main.css}" rel="stylesheet" />
+</head>
+<body>
+<section class="section-header">
+    <div class="container">
+        <h1>Add Current conditions</h1>
+    </div>
+</section>
+
+<section>
+    <div class="container">
+        <form method="post" th:action="@{/web/form/handle}" th:object="${conditionForm}">
+            <label>
+                temperature:
+                <input type="number" name="temperature">
+            </label>
+
+            <label>
+                windDirection:
+                <input type="number" name="windDirection">
+            </label>
+
+            <label>
+                windSpeed:
+                <input type="number" name="windSpeed">
+            </label>
+
+            <label>
+                pressure:
+                <input type="number" name="pressure">
+            </label>
+
+            <label>
+                source:
+                <input type="text" name="source">
+            </label>
+
+            <button type="submit">SEND DATA</button>
+        </form>
+    </div>
+</section>
+
+
+<script src="/webjars/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script type="text/javascript" th:src="@{/js/main.js}"></script>
+</body>
+</html>
