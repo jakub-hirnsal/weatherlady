@@ -61,6 +61,11 @@ public class WebController {
     )
     public String showForm(final Model model) {
         model.addAttribute("conditionForm", new ConditionForm());
+
+        // this will show error.html
+//        throw new RuntimeException("Something happened");
+
+
         return "form";
     }
 
