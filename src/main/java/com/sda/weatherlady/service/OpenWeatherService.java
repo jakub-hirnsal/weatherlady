@@ -56,14 +56,16 @@ public class OpenWeatherService {
             throw new NotFoundException("City not found: " + city);
         }
 
-        return convertToCommonFormat(body);
+        return convertToCommonFormat(body, city);
     }
 
-    private CurrentDTO convertToCommonFormat(OpenWeatherDTO openWeatherDTO) {
+    private CurrentDTO convertToCommonFormat(OpenWeatherDTO openWeatherDTO, String city) {
         return CurrentDTO.builder()
                 .pressure(buildPressure(openWeatherDTO))
                 .temperature(buildTemperature(openWeatherDTO))
                 .wind(buildWind(openWeatherDTO))
+                .city(city)
+                .countryCode(openWeatherDTO.getSys().getCountry())
                 .build();
     }
 

@@ -7,6 +7,6 @@ public class OpenWeatherDTO {
 
     private OpenWeatherWind wind;
     private OpenWeatherMain main;
-
+    private OpenWeatherSys sys;
 
 }

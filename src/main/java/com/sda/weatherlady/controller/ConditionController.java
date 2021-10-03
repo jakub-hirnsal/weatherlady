@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping(value = "/condition")
+// RESTfull
 public class ConditionController {
 
     private CurrentConditionRepository currentConditionRepository;

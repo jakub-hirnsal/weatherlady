@@ -21,4 +21,7 @@ public class CurrentDTO {
     @JsonProperty("Pressure")
     private Pressure pressure;
 
+    private String city;
+    private String countryCode;
+
 }

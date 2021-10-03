@@ -40,18 +40,22 @@ public class AccuweatherService implements WeatherService {
     }
 
     public CurrentDTO getCurrentConditionForCity(String city) {
-        String keyByCity = this.findKeyByCity(city);
+        AccuweatherCitySearchResponse citySearchResponse = this.findKeyByCity(city);
 
-        return this.downloadWeather(keyByCity);
+        return this.downloadWeather(
+                citySearchResponse.getKey(),
+                citySearchResponse.getLocalizedName(),
+                citySearchResponse.getCountry().getId()
+        );
     }
 
-    private CurrentDTO downloadWeather(String city) {
+    private CurrentDTO downloadWeather(String cityKey, String city, String countryCode) {
         LOGGER.info("About to download Accuweather");
 
         String url = UriComponentsBuilder.fromHttpUrl(accuweatherConfiguration.getCurrentUrl())
                 .queryParam("apikey", accuweatherConfiguration.getApikey())
                 .queryParam("details", true)
-                .build(city)
+                .build(cityKey)
                 .toString();
 
         LOGGER.info("Url to call: {}", url);
@@ -69,10 +73,15 @@ public class AccuweatherService implements WeatherService {
             throw new NotFoundException("Could not find any Weather condition for city " + city);
         }
 
-        return body.get(0);
+        var currentDTO = body.get(0);
+
+        currentDTO.setCity(city);
+        currentDTO.setCountryCode(countryCode);
+
+        return currentDTO;
     }
 
-    private String findKeyByCity(String city) {
+    private AccuweatherCitySearchResponse findKeyByCity(String city) {
 
         String uriString = UriComponentsBuilder.fromHttpUrl(accuweatherConfiguration.getSearchCityUrl())
                 .queryParam("q", city)
@@ -92,8 +101,7 @@ public class AccuweatherService implements WeatherService {
             throw new NotFoundException("City not found: " + city);
         }
 
-        var accuweatherCitySearchResponse = cities.get(0);
-        return accuweatherCitySearchResponse.getKey();
+        return cities.get(0);
     }
 
 }

@@ -47,6 +47,7 @@ public class WebController {
                 .collect(Collectors.toList());
 
         modelMap.addAttribute("listOfConditions", currentConditionList);
+        modelMap.addAttribute("test", "ahoj");
 
         return "conditions";
     }
