@@ -12,6 +12,7 @@ import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -34,7 +35,7 @@ public class AccuweatherService implements WeatherService {
 //    private String apikey;
     private AccuweatherConfiguration accuweatherConfiguration;
 
-    public AccuweatherService(RestTemplate restTemplate, AccuweatherConfiguration accuweatherConfiguration) {
+    public AccuweatherService(RestTemplate restTemplate, @Validated AccuweatherConfiguration accuweatherConfiguration) {
         this.restTemplate = restTemplate;
         this.accuweatherConfiguration = accuweatherConfiguration;
     }

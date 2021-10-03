@@ -21,36 +21,57 @@
             <label>
                 temperature:
                 <input type="number" name="temperature">
+                <ul th:if="${#fields.hasErrors('temperature')}">
+                    <li th:each="err : ${#fields.errors('temperature')}" th:text="${err}">_Input is incorrect</li>
+                </ul>
             </label>
 
             <label>
                 windDirection:
                 <input type="number" name="windDirection">
+                <ul th:if="${#fields.hasErrors('windDirection')}">
+                    <li th:each="err : ${#fields.errors('windDirection')}" th:text="${err}">_Input is incorrect</li>
+                </ul>
             </label>
 
             <label>
                 windSpeed:
                 <input type="number" name="windSpeed">
+                <ul th:if="${#fields.hasErrors('windSpeed')}">
+                    <li th:each="err : ${#fields.errors('windSpeed')}" th:text="${err}">_Input is incorrect</li>
+                </ul>
             </label>
 
             <label>
                 pressure:
                 <input type="number" name="pressure">
+                <ul th:if="${#fields.hasErrors('pressure')}">
+                    <li th:each="err : ${#fields.errors('pressure')}" th:text="${err}">_Input is incorrect</li>
+                </ul>
             </label>
 
             <label>
                 source:
                 <input type="text" name="source">
+                <ul th:if="${#fields.hasErrors('source')}">
+                    <li th:each="err : ${#fields.errors('source')}" th:text="${err}">_Input is incorrect</li>
+                </ul>
             </label>
 
             <label>
                 city:
                 <input type="text" name="city">
+                <ul th:if="${#fields.hasErrors('city')}">
+                    <li th:each="err : ${#fields.errors('city')}" th:text="${err}">_Input is incorrect</li>
+                </ul>
             </label>
 
             <label>
                 countryCode:
                 <input type="text" name="countryCode">
+                <ul th:if="${#fields.hasErrors('countryCode')}">
+                    <li th:each="err : ${#fields.errors('countryCode')}" th:text="${err}">_Input is incorrect</li>
+                </ul>
             </label>
 
             <button type="submit">SEND DATA</button>

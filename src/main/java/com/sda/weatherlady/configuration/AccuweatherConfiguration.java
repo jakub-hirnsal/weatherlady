@@ -15,7 +15,14 @@ public class AccuweatherConfiguration {
     private String forecastUrl;
     private String currentUrl;
     private String searchCityUrl;
+
+
     private String apikey;
     private List<String> array;
+
+//    @AssertTrue
+//    public boolean isApiKeyValid() {
+//        return apikey != 1 || apikey != 2 || apikey != 3;
+//    }
 
 }
