@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -109,4 +110,36 @@ public class ConditionController {
         );
     }
 
+    @GetMapping(
+            value = "/city",
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    public ResponseEntity<List<CurrentCondition>> findCurrentConditionByCity(
+            @RequestParam String city
+    ) {
+        return ResponseEntity.ok(
+                currentConditionRepository.findCurrentConditionByCity(city)
+        );
+    }
+
+    @GetMapping(
+            value = "/count"
+    )
+    public ResponseEntity<Long> countAll() {
+        return ResponseEntity.ok(
+                currentConditionRepository.count()
+        );
+    }
+
+    @GetMapping(
+            value = "/temperature",
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    public ResponseEntity<List<CurrentCondition>> getTemperatureGreaterThan(
+            @RequestParam Float temperature
+    ) {
+        return ResponseEntity.ok(
+                currentConditionRepository.findCurrentConditionByTemperatureGreaterThan(temperature)
+        );
+    }
 }
