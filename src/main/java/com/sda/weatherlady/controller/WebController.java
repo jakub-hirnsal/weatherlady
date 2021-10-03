@@ -73,6 +73,8 @@ public class WebController {
                 .windDirection(conditionForm.getWindDirection())
                 .pressure(conditionForm.getPressure())
                 .source(conditionForm.getSource())
+                .city(conditionForm.getCity())
+                .countryCode(conditionForm.getCountryCode())
                 .build();
 
         currentConditionRepository.save(currentCondition);

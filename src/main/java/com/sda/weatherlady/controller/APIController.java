@@ -32,6 +32,12 @@ public class APIController {
         return "OK";
     }
 
+    /**
+     * Example URL: http://127.0.0.1:8080/api/weather?city=Prague&type=openweather
+     * @param type String
+     * @param city String
+     * @return ResponseEntity<CurrentDTO>
+     */
     @GetMapping(
             value = "/weather",
             produces = MediaType.APPLICATION_JSON_VALUE

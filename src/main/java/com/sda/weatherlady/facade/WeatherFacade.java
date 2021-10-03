@@ -71,6 +71,8 @@ public class WeatherFacade {
                 .windDirection(currentDTO.getWind().getDirection().getDegrees())
                 .windSpeed(currentDTO.getWind().getSpeed().getMetric().getValue())
                 .source(type)
+                .city(currentDTO.getCity())
+                .countryCode(currentDTO.getCountryCode())
                 .build();
     }
 
@@ -102,6 +104,9 @@ public class WeatherFacade {
         }
 
         CurrentDTO average = AverageCalculator.calculateAverage(accuweatherDTO, openweatherDTO);
+
+        average.setCity(accuweatherDTO.getCity());
+        average.setCountryCode(accuweatherDTO.getCountryCode());
 
         CurrentCondition averageCondition = convertToModel(average, AVERAGE);
         CurrentCondition accuweatherCondition = convertToModel(accuweatherDTO, ACCUWEATHER);

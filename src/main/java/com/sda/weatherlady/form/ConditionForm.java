@@ -14,5 +14,7 @@ public class ConditionForm {
     private Float windSpeed;
     private Float pressure;
     private String source;
+    private String city;
+    private String countryCode;
 
 }

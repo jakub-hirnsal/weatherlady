@@ -38,6 +38,10 @@ public class CurrentCondition {
 
     private String source;
 
+    private String city;
+
+    private String countryCode;
+
     @Column(name = "created_at")
     @CreationTimestamp
     private Timestamp createAt;
