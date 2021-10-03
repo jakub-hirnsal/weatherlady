@@ -16,6 +16,7 @@
 
 <section>
     <div class="container">
+        <!--/*@thymesVar id="conditionForm" type="com.sda.weatherlady.form.ConditionForm"*/-->
         <form method="post" th:action="@{/web/form/handle}" th:object="${conditionForm}">
             <label>
                 temperature:

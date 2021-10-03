@@ -6,7 +6,9 @@ import com.sda.weatherlady.repository.CurrentConditionRepository;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
+import javax.validation.Valid;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -56,7 +58,8 @@ public class WebController {
     @GetMapping(
             value = "/form"
     )
-    public String showForm(final ModelMap modelMap) {
+    public String showForm(final Model model) {
+        model.addAttribute("conditionForm", new ConditionForm());
         return "form";
     }
 
@@ -64,7 +67,7 @@ public class WebController {
             value = "/form/handle"
     )
     public String handleForm(
-            @ModelAttribute("conditionForm") final ConditionForm conditionForm
+            @ModelAttribute("conditionForm") @Valid final ConditionForm conditionForm
     ) {
 
         CurrentCondition currentCondition = CurrentCondition.builder()
