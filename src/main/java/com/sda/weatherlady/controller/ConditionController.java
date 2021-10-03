@@ -142,4 +142,20 @@ public class ConditionController {
                 currentConditionRepository.findCurrentConditionByTemperatureGreaterThan(temperature)
         );
     }
+
+    @GetMapping(
+            value = "/wind/direction/between",
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    public ResponseEntity<List<CurrentCondition>> getConditionByWindDirectionBetween(
+            @RequestParam Integer lowerDegree,
+            @RequestParam Integer higherDegree
+    ) {
+        return ResponseEntity.ok(
+                currentConditionRepository.selectAllConditionsWithDegreesBetween(
+                        lowerDegree,
+                        higherDegree
+                )
+        );
+    }
 }
