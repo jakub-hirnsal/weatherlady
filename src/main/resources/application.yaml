@@ -20,10 +20,17 @@ app:
 
 spring:
   datasource:
-    url: jdbc:h2:mem:testdb
-    driver-class-name: org.h2.Driver
-    username: sa
-    password:
+#    THIS FOR H2
+#    url: jdbc:h2:mem:testdb
+#    driver-class-name: org.h2.Driver
+#    username: sa
+#    password:
+
+#  THIS IS FOR MYSQL
+    url: jdbc:mysql://localhost:3306/weatherlady
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: lady
+    password: lady
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: update

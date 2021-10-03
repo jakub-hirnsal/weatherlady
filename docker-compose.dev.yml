@@ -1,0 +1,30 @@
+version: '3'
+
+volumes:
+  logs:
+    driver: local
+
+services:
+  mariadb:
+    image: mariadb
+    environment:
+      MYSQL_ROOT_PASSWORD: root_pass
+    ports:
+    - "3306:3306"
+    volumes:
+      - /etc/localtime:/etc/localtime
+      - /var/data/maria:/var/lib/mysql
+
+  adminer:
+    image: registry.gitlab.com/j-code/docker/nginx-php-adminer
+    #restart: "always"
+    ports:
+    - "8070:80"
+    volumes:
+    - /etc/localtime:/etc/localtime
+    links:
+    - mariadb
+#    - mysql
+
+
+
