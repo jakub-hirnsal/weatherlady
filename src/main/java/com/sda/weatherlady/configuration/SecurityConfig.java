@@ -21,13 +21,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             .and()
                 .formLogin()
                 .and()
-                .httpBasic()
+                //.httpBasic()
+                .oauth2Login()
                 .and()
                 .logout()
                 .and()
                 .headers().frameOptions().disable()
                 .and()
-                .csrf().disable();
+                .csrf()
+                .disable();
 
 
 
