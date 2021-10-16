@@ -19,18 +19,21 @@ app:
 
 
 spring:
+  security:
+    user:
+      name: user
+      password: heslo
+#    oauth2:
+#      client:
+#        registration:
+#          google:
+#            client-id: ${OAUTH2_GOOGLE_CLIENT_ID}
+#            client-secret: ${OAUTH2_GOOGLE_CLIENT_SECRET}
   datasource:
-#    THIS FOR H2
-#    url: jdbc:h2:mem:testdb
-#    driver-class-name: org.h2.Driver
-#    username: sa
-#    password:
-
-#  THIS IS FOR MYSQL
-    url: jdbc:mysql://localhost:3306/weatherlady
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    username: lady
-    password: lady
+    url: ${DB_URL}
+    driver-class-name: ${DB_DRIVER_CLASS}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
   jpa:
     hibernate:
       ddl-auto: update

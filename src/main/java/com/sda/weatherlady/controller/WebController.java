@@ -3,9 +3,6 @@ package com.sda.weatherlady.controller;
 import com.sda.weatherlady.form.ConditionForm;
 import com.sda.weatherlady.model.CurrentCondition;
 import com.sda.weatherlady.repository.CurrentConditionRepository;
-import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 import javax.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -46,10 +43,11 @@ public class WebController {
     public String showAllConditions(final ModelMap modelMap) {
         Iterable<CurrentCondition> conditionIterable = currentConditionRepository.findAll();
 
-        List<CurrentCondition> currentConditionList = StreamSupport.stream(conditionIterable.spliterator(), false)
-                .collect(Collectors.toList());
+        // NOT required to show in views
+//        List<CurrentCondition> currentConditionList = StreamSupport.stream(conditionIterable.spliterator(), false)
+//                .collect(Collectors.toList());
 
-        modelMap.addAttribute("listOfConditions", currentConditionList);
+        modelMap.addAttribute("listOfConditions", conditionIterable);
         modelMap.addAttribute("test", "ahoj");
 
         return "conditions";
