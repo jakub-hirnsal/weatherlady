@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -24,6 +25,9 @@ public class APIController {
         this.weatherFacade = weatherFacade;
     }
 
+    @Secured("ROLE_SUPER_ADMIN")
+//    @RolesAllowed("SUPER_ADMIN") //same as previous line
+//    @PreAuthorize("#scope") // for OAUTH2 -
     @GetMapping(
             value = "/ping",
             produces = MediaType.TEXT_PLAIN_VALUE
