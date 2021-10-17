@@ -1,0 +1,31 @@
+{
+  "city": "Prague",
+  "countryCode": "CZ",
+  "Temperature": {
+    "Metric": {
+      "Value": 4.28,
+      "Unit": "C"
+    },
+    "Imperial": null
+  },
+  "Wind": {
+    "Direction": {
+      "Degrees": 200,
+      "Localized": null
+    },
+    "Speed": {
+      "Metric": {
+        "Value": 2.57,
+        "Unit": "??"
+      },
+      "Imperial": null
+    }
+  },
+  "Pressure": {
+    "Metric": {
+      "Value": 1018.0,
+      "Unit": "mb"
+    },
+    "Imperial": null
+  }
+}

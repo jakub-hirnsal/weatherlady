@@ -1,0 +1,38 @@
+
+app:
+  service:
+    accuweather:
+      forecastUrl: http://127.0.0.1:8070/forecasts/v1/daily/1day/{locationKey}
+      currentUrl: http://127.0.0.1:8070/currentconditions/v1/{locationKey}
+      searchCityUrl: http://127.0.0.1:8070/locations/v1/cities/search
+      apikey: testAccuweatherApiKey
+      array:
+        - one
+        - two
+        - three
+        - four
+    openweather:
+      currentUrl: http://127.0.0.1:8070/data/2.5/weather
+      apikey: testApiKey
+
+
+spring:
+  security:
+    user:
+      name: user
+      password: heslo
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: client_id
+            client-secret: client_secret
+
+  datasource:
+    url: jdbc:h2:mem:testdb
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+  jpa:
+    hibernate:
+      ddl-auto: update
